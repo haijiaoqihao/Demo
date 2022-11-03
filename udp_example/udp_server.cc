@@ -69,6 +69,13 @@ int main() {
     recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0,
                         (struct sockaddr *)&addr_client, (socklen_t *)&len);
 
+    if (recv_num != per_udp_maxsize) {
+      std::cout
+          << "receive a uncomplete udp packet. client send udp packet size is: "
+          << per_udp_maxsize << ", but server receive's size is: " << recv_num
+          << std::endl;
+      continue;
+    }
     std::cout << "reveive udp packet size is : " << recv_num << std::endl;
     // std::cout << "flag is : " << recv_buf[per_udp_maxsize - 2] << std::endl;
 
@@ -78,7 +85,7 @@ int main() {
     }
 
     // read index from buf
-    current_index = (uint16_t)recv_buf[0];
+    memcpy(&current_index, recv_buf+0, sizeof(current_index));
     if (current_index != last_index) {
       // receive a new msg
       // get currnt time;

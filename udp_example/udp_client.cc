@@ -61,10 +61,8 @@ int main() {
   len = sizeof(addr_serv);
 
   int send_num;
-  char send_buf[per_udp_maxsize] = "hey, who are you?";
-  // send_buf[per_udp_maxsize - 2] = reinterpret_cast<char>(flag);
-
-  uint16_t index = 1;
+  char send_buf[per_udp_maxsize];
+  uint64_t index = 1;
 
   while (1) {
     size_t count = udp_count;
